@@ -105,7 +105,7 @@ func (controller *reservationsController) bookHotel(w http.ResponseWriter, r *ht
 	newReservation := &objects.CreateReservationRequestDto{
 		PaymentUid: paymentDtoWithUid.PaymentUid,
 		HotelUid:   requestBody.HotelUid,
-		Status:     requestBody.Status,
+		Status:     "PAID",
 		StartDate:  requestBody.StartDate,
 		EndDate:    requestBody.EndDate,
 	}
@@ -119,7 +119,6 @@ func (controller *reservationsController) bookHotel(w http.ResponseWriter, r *ht
 		Name:        hotel.Name,
 		FullAddress: hotel.Country + ", " + hotel.City + ", " + hotel.Address,
 		Stars:       hotel.Stars,
-		Price:       hotel.Price,
 	}
 
 	(*createdReservation).Hotel = *hotelInfoDto
@@ -181,7 +180,7 @@ func (controller *reservationsController) getReservationsOfUser(w http.ResponseW
 		(*reservations).Items[idx].Payment = *paymentDtoWithId
 	}
 
-	responses.JsonSuccess(w, reservations)
+	responses.JsonSuccess(w, reservations.Items)
 }
 
 func (controller *reservationsController) getReservationOfUserByUid(w http.ResponseWriter, r *http.Request) {

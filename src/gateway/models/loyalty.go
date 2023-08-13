@@ -3,7 +3,6 @@ package models
 import (
 	"encoding/json"
 	"fmt"
-	"gateway/errors"
 	"gateway/objects"
 	"gateway/utils"
 	"io/ioutil"
@@ -27,13 +26,18 @@ func (model *LoyaltyModel) GetLoyaltyForUser(authHeader string) (*objects.Loyalt
 	if err != nil {
 		return nil, err
 	} else if resp.StatusCode == http.StatusNotFound {
-		return nil, errors.RecordNotFound
-	} else {
-		data := &objects.LoyaltyDto{}
-		body, _ := ioutil.ReadAll(resp.Body)
-		json.Unmarshal(body, data)
-		return data, nil
+		req, _ = http.NewRequest("POST", fmt.Sprintf("%s/api/v1/loyalties", utils.Config.Endpoints.Loyalties), nil)
+		req.Header.Add("Authorization", authHeader)
+		resp, _ = http.DefaultClient.Do(req)
+		req, _ = http.NewRequest("GET", fmt.Sprintf("%s/api/v1/loyalties", utils.Config.Endpoints.Loyalties), nil)
+		req.Header.Add("Authorization", authHeader)
+		resp, _ = http.DefaultClient.Do(req)
 	}
+
+	data := &objects.LoyaltyDto{}
+	body, _ := ioutil.ReadAll(resp.Body)
+	json.Unmarshal(body, data)
+	return data, nil
 }
 
 func (model *LoyaltyModel) IncreaseLoyalty(authHeader string) error {

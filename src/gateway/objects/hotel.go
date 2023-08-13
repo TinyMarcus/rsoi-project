@@ -5,7 +5,6 @@ type HotelInfoDto struct {
 	Name        string `json:"name"`
 	FullAddress string `json:"full_address"`
 	Stars       int    `json:"stars"`
-	Price       int    `json:"price"`
 }
 
 type HotelResponseDto struct {

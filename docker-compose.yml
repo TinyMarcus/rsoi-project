@@ -1,6 +1,6 @@
 version: "3"
 services:
-  postgres:
+  postgres-service:
     image: library/postgres:15
     container_name: postgres
     restart: on-failure
@@ -25,7 +25,7 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka:7.3.2
-    container_name: kafka-1
+    container_name: kafka
     ports:
       - "9092:9092"
     environment:
@@ -40,7 +40,85 @@ services:
     depends_on:
       - zookeeper
 
-# TODO добавить сервисы
+  statistics-service:
+    container_name: statistics-service
+    build:
+      context: src/statistics
+    ports:
+      - "8030:8030"
+    depends_on:
+      - kafka
+      - postgres-service
+    links: 
+      - postgres-service
+    restart: on-failure
+
+  identity-provider-service:
+    container_name: identity-provider-service
+    build:
+      context: src/identity-provider
+    ports:
+      - "8040:8040"
+    restart: on-failure
+
+  loyalties-service:
+    container_name: loyalties-service
+    build:
+      context: src/loyalties
+    ports:
+      - "8050:8050"
+    depends_on:
+      - postgres-service
+    links: 
+      - postgres-service
+    restart: on-failure
+
+  payments-service:
+    container_name: payments-service
+    build:
+      context: src/payments
+    ports:
+      - "8060:8060"
+    depends_on:
+      - postgres-service
+    links: 
+      - postgres-service
+    restart: on-failure
+  
+  reservations-service:
+    container_name: reservations-service
+    build:
+      context: src/reservations
+    ports:
+      - "8070:8070"
+    depends_on:
+      - postgres-service
+    links: 
+      - postgres-service
+    restart: on-failure
+
+  gateway-service:
+    container_name: gateway-service
+    build:
+      context: src/gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - identity-provider-service
+      - reservations-service
+      - payments-service
+      - loyalties-service
+    restart: on-failure
+
+  frontend-service:
+    container_name: frontend-service
+    build:
+      context: src/frontend/hbs-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway-service
+    restart: on-failure
 
 volumes:
   db-data:

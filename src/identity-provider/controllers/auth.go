@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"identity-provider/controllers/Responses"
+	"identity-provider/controllers/responses"
 	"identity-provider/models"
 	"identity-provider/objects"
 	"net/http"

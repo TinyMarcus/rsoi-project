@@ -27,7 +27,7 @@ func InitConfiguration() {
 			"loyalties",
 			"postgres",
 			"postgres",
-			"127.0.0.1",
+			"localhost",
 			"5432",
 		},
 		"logs/servel.log",

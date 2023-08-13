@@ -13,7 +13,7 @@ export const HeaderRouter: React.FC<{}> = () => {
         <Routes>
             <Route path="/" element={<Header title="Все отели"/>}/>
             <Route path="/users" element={<SearchHeader title="Все пользователи"/>}/>
-            <Route path="/me/reservations" element={<Header subtitle="Бронирования" title="Мои" />}/>
+            <Route path="/me/reservations" element={<Header subtitle="Мои" title="Бронирования" />}/>
             <Route path="/statistics" element={<Header subtitle="Общая" title="Статистика" />}/>
 
             <Route path="/accounts/:login/recipes" element={<UserHeader subtitle="Автор" title="" />}/>

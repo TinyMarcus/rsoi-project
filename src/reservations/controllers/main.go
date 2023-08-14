@@ -13,10 +13,12 @@ import (
 func initControllers(r *mux.Router, m *models.Models) {
 	r.Use(utils.LogHandler)
 	api1_r := r.PathPrefix("/api/v1/").Subrouter()
-	api1_r.Use(JwtAuthentication)
+	api1_r_noauth := api1_r.NewRoute().Subrouter()
+	InitHotels(api1_r_noauth, m.Hotel)
+	api1_r_auth := api1_r.NewRoute().Subrouter()
+	api1_r_auth.Use(JwtAuthentication)
 
-	InitReservations(api1_r, m.Reservation, m.Hotel)
-	InitHotels(api1_r, m.Hotel)
+	InitReservations(api1_r_auth, m.Reservation, m.Hotel)
 }
 
 func InitRouter(db *gorm.DB) *mux.Router {

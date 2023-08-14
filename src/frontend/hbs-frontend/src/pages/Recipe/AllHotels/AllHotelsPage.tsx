@@ -13,10 +13,10 @@ interface AllRecipesProps {}
 const AllHotelsPage: React.FC<AllRecipesProps> = (props) => {
   const searchContext = useContext(SearchContext);
 
-  if (localStorage.getItem("token") == null) {
-    window.location.href = "/authorize";
-    return (<Box></Box>);
-  }
+  // if (localStorage.getItem("token") == null) {
+  //   window.location.href = "/authorize";
+  //   return (<Box></Box>);
+  // }
 
   return (
     <Box className={styles.main_box}>

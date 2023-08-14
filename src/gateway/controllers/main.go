@@ -13,6 +13,8 @@ import (
 func initControllers(r *mux.Router, models *models.Models) {
 	r.Use(utils.LogHandler)
 	api1_r := r.PathPrefix("/api/v1/").Subrouter()
+	api1_r_hotels := api1_r.NewRoute().Subrouter()
+	InitHotels(api1_r_hotels, models.Hotels)
 
 	api1_r_noauth := api1_r.NewRoute().Subrouter()
 	api1_r_noauth.Use(func(next http.Handler) http.Handler {
@@ -27,7 +29,6 @@ func initControllers(r *mux.Router, models *models.Models) {
 	})
 
 	InitReservations(api1_r_auth, models.Reservations, models.Payments, models.Loyalties, models.Hotels)
-	InitHotels(api1_r_auth, models.Hotels)
 	InitLoyalties(api1_r_auth, models.Loyalties)
 	// TODO: тут будет статистика
 	InitStatistics(api1_r_auth, models.Statistics)

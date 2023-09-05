@@ -27,7 +27,7 @@ func InitConfiguration() {
 			"reservations",
 			"postgres",
 			"postgres",
-			"localhost",
+			"postgres",
 			"5432",
 		},
 		"logs/servel.log",

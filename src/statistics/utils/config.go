@@ -24,11 +24,11 @@ func InitConfig() {
 			"statistics",
 			"postgres",
 			"postgres",
-			"localhost",
+			"postgres",
 			"5432",
 		},
 		LogFile: "logs/server.log",
 		Port:    8030,
-		Kafka:   KafkaConfig{Endpoints: []string{"localhost:9092"}, Topics: []string{"statistics"}},
+		Kafka:   KafkaConfig{Endpoints: []string{"kafka:9092"}, Topics: []string{"statistics"}},
 	}
 }

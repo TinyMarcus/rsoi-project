@@ -27,7 +27,7 @@ func InitConfiguration() {
 			"identity-provider",
 			"postgres",
 			"postgres",
-			"localhost",
+			"postgres",
 			"5432",
 		},
 		"logs/servel.log",
